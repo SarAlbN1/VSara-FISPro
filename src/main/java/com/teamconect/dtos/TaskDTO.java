@@ -1,34 +1,52 @@
-// TaskDTO.java
 package com.teamconect.dtos;
 
 public class TaskDTO {
-    private String id;
     private String title;
     private String description;
-    private String status;
     private String assignedUserId;
-    private String departmentId;
-    private String areaId;
+    private String status;
+
+    // Constructor vacío
+    public TaskDTO() {}
+
+    // Constructor con parámetros
+    public TaskDTO(String title, String description, String assignedUserId, String status) {
+        this.title = title;
+        this.description = description;
+        this.assignedUserId = assignedUserId;
+        this.status = status;
+    }
 
     // Getters y Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getDescription() {
+        return description;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public String getAssignedUserId() { return assignedUserId; }
-    public void setAssignedUserId(String assignedUserId) { this.assignedUserId = assignedUserId; }
+    public String getAssignedUserId() {
+        return assignedUserId;
+    }
 
-    public String getDepartmentId() { return departmentId; }
-    public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
+    public void setAssignedUserId(String assignedUserId) {
+        this.assignedUserId = assignedUserId;
+    }
 
-    public String getAreaId() { return areaId; }
-    public void setAreaId(String areaId) { this.areaId = areaId; }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
