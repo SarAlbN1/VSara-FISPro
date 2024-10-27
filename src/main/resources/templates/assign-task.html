@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignación de Tareas</title>
+    <link rel="stylesheet" href="/static/styles/teamConnect.css">
+</head>
+<body>
+    <div class="task-container">
+        <h2>Asignación de Tareas</h2>
+        <form id="taskForm">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="description">Descripción:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="assignedUserId">ID del Usuario Asignado:</label>
+            <input type="text" id="assignedUserId" name="assignedUserId" required>
+
+            <label for="status">Estado:</label>
+            <select id="status" name="status">
+                <option value="pendiente">Pendiente</option>
+                <option value="en progreso">En Progreso</option>
+                <option value="completado">Completado</option>
+            </select>
+
+            <button type="submit">Asignar Tarea</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.getElementById("taskForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            
+            const taskData = {
+                title: document.getElementById("title").value,
+                description: document.getElementById("description").value,
+                assignedUserId: document.getElementById("assignedUserId").value,
+                status: document.getElementById("status").value
+            };
+
+            try {
+                const response = await fetch("/api/tasks/assign", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(taskData)
+                });
+
+                if (response.ok) {
+                    document.getElementById("message").textContent = "Tarea asignada exitosamente.";
+                    document.getElementById("taskForm").reset();
+                } else {
+                    document.getElementById("message").textContent = "Error al asignar la tarea.";
+                }
+            } catch (error) {
+                document.getElementById("message").textContent = "Error de conexión. Intenta nuevamente.";
+            }
+        });
+    </script>
+</body>
+</html>
