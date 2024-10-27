@@ -1,0 +1,27 @@
+<!-- task-list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Tareas</title>
+</head>
+<body>
+    <h2>Lista de Tareas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iteración de tareas -->
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.title}">Título de la Tarea</td>
+                <td th:text="${task.description}">Descripción de la Tarea</td>
+                <td th:text="${task.status}">Estado</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

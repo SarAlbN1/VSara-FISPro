@@ -1,0 +1,47 @@
+<!-- chat.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chat en Tiempo Real</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+    <h2>Chat</h2>
+    <div id="chat-window">
+        <ul id="messages"></ul>
+    </div>
+    <input type="text" id="message" placeholder="Escribe un mensaje..." />
+    <button onclick="sendMessage()">Enviar</button>
+
+    <script>
+        var stompClient = null;
+
+        function connect() {
+            var socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, function (frame) {
+                console.log('Conectado: ' + frame);
+                stompClient.subscribe('/topic/public', function (messageOutput) {
+                    showMessage(JSON.parse(messageOutput.body).content);
+                });
+            });
+        }
+
+        function sendMessage() {
+            var messageContent = document.getElementById("message").value;
+            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({'content': messageContent}));
+        }
+
+        function showMessage(message) {
+            var messagesElement = document.getElementById("messages");
+            var messageElement = document.createElement('li');
+            messageElement.appendChild(document.createTextNode(message));
+            messagesElement.appendChild(messageElement);
+        }
+
+        connect();
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- auth.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Autenticación</title>
+</head>
+<body>
+    <h2>Enviar Código de Verificación</h2>
+    <form action="/api/auth/sendCode" method="post">
+        <input type="text" name="phone" placeholder="Número de Teléfono" required>
+        <button type="submit">Enviar Código</button>
+    </form>
+    <h2>Verificar Código</h2>
+    <form action="/api/auth/verifyCode" method="post">
+        <input type="text" name="phone" placeholder="Número de Teléfono" required>
+        <input type="text" name="code" placeholder="Código de Verificación" required>
+        <button type="submit">Verificar</button>
+    </form>
+</body>
+</html>
