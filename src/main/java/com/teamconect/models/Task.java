@@ -11,7 +11,7 @@ public class Task {
     private String title;
     private String description;
     private String assignedUserId;
-    private String status; // Puede ser "pendiente", "en progreso" o "completado"
+    private String status; // Estado de la tarea: "pendiente", "en progreso", "completado"
 
     // Constructor vacío
     public Task() {}
