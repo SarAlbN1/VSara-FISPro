@@ -31,7 +31,7 @@ public class AuthService {
     private String twilioPhoneNumber;
 
     // Inicializa Twilio con las credenciales de la cuenta
-    public void initializeTwilio() {
+    private void initializeTwilio() {
         Twilio.init(accountSid, authToken);
     }
 
@@ -46,9 +46,9 @@ public class AuthService {
         initializeTwilio();  // Inicializa Twilio solo cuando se va a enviar el SMS
 
         Message message = Message.creator(
-                new com.twilio.type.PhoneNumber(userPhoneNumber),  // Número del destinatario
-                new com.twilio.type.PhoneNumber(twilioPhoneNumber), // Número de Twilio desde el cual se envía
-                "Tu código de verificación es: " + generatedCode)    // Contenido del mensaje
+                new com.twilio.type.PhoneNumber(userPhoneNumber),
+                new com.twilio.type.PhoneNumber(twilioPhoneNumber),
+                "Tu código de verificación es: " + generatedCode)
             .create();
 
         System.out.println("Código de verificación enviado. SID del mensaje: " + message.getSid());
@@ -57,9 +57,7 @@ public class AuthService {
     // Método de autenticación que verifica el código de usuario
     public boolean authenticateUser(AutenticacionDTO authDTO) {
         User user = userRepository.findByEmail(authDTO.getEmail());
-        if (user != null && user.getPassword().equals(authDTO.getPassword())) {
-            return authDTO.getVerificationCode().equals(generatedCode);
-        }
-        return false;
+        return user != null && user.getPassword().equals(authDTO.getPassword())
+               && authDTO.getVerificationCode().equals(generatedCode);
     }
 }

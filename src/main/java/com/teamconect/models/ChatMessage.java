@@ -1,4 +1,3 @@
-// ChatMessage.java
 package com.teamconect.models;
 
 public class ChatMessage {

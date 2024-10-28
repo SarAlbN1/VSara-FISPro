@@ -6,10 +6,8 @@ public class TaskDTO {
     private String assignedUserId;
     private String status;
 
-    // Constructor vacío
     public TaskDTO() {}
 
-    // Constructor con parámetros
     public TaskDTO(String title, String description, String assignedUserId, String status) {
         this.title = title;
         this.description = description;
@@ -17,36 +15,15 @@ public class TaskDTO {
         this.status = status;
     }
 
-    // Getters y Setters
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getAssignedUserId() { return assignedUserId; }
+    public void setAssignedUserId(String assignedUserId) { this.assignedUserId = assignedUserId; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getAssignedUserId() {
-        return assignedUserId;
-    }
-
-    public void setAssignedUserId(String assignedUserId) {
-        this.assignedUserId = assignedUserId;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

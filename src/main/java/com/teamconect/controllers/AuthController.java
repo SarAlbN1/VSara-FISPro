@@ -25,7 +25,6 @@ public class AuthController {
 
     @PostMapping("/send-code")
     public String sendVerificationCode(@RequestParam String phoneNumber) {
-        authService.generateVerificationCode();
         authService.sendVerificationCode(phoneNumber);
         return "Código de verificación enviado";
     }
