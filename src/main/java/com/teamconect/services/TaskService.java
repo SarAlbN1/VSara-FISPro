@@ -1,5 +1,6 @@
 package com.teamconect.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,22 @@ public class TaskService {
         }
         return null;
     }
+
     public List<Task> getTasksByUser(String userId) {
         return taskRepository.findByAssignedUser(userId);
     }
+
+    public List<Task> getTasksByDepartment(String departmentId) {
+        return taskRepository.findByDepartment(departmentId);
+    }
+
+    public List<Task> getTasksByDepartment(String departmentId) {
+        return taskRepository.findByDepartment(departmentId);
+    }
+
+    public List<Task> getTasksByArea(String areaId) {
+        return taskRepository.findByArea(areaId);
+    }
     
+
 }
