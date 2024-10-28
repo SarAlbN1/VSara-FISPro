@@ -1,27 +1,36 @@
-<!-- task-list.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Lista de Tareas</title>
 </head>
 <body>
-    <h2>Lista de Tareas</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Descripción</th>
-                <th>Estado</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Iteración de tareas -->
-            <tr th:each="task : ${tasks}">
-                <td th:text="${task.title}">Título de la Tarea</td>
-                <td th:text="${task.description}">Descripción de la Tarea</td>
-                <td th:text="${task.status}">Estado</td>
-            </tr>
-        </tbody>
-    </table>
+    <h1>Lista de Tareas Filtradas</h1>
+    <label for="filter">Filtrar por:</label>
+    <select id="filter" onchange="applyFilter()">
+        <option value="user">Usuario</option>
+        <option value="department">Departamento</option>
+        <option value="area">Área</option>
+    </select>
+    <input type="text" id="filterValue" placeholder="Ingresa el valor del filtro"/>
+    <button onclick="fetchTasks()">Buscar</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        async function fetchTasks() {
+            const filter = document.getElementById('filter').value;
+            const value = document.getElementById('filterValue').value;
+            const response = await fetch(`/tasks/by-${filter}/${value}`);
+            const tasks = await response.json();
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const listItem = document.createElement('li');
+                listItem.textContent = task.title + ' - ' + task.description;
+                taskList.appendChild(listItem);
+            });
+        }
+    </script>
 </body>
 </html>
