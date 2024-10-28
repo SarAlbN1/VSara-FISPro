@@ -27,4 +27,8 @@ public class TaskService {
         }
         return null;
     }
+    public List<Task> getTasksByUser(String userId) {
+        return taskRepository.findByAssignedUser(userId);
+    }
+    
 }
