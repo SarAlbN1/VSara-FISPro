@@ -29,21 +29,18 @@ public class TaskService {
         return null;
     }
 
+    // Obtiene las tareas por usuario
     public List<Task> getTasksByUser(String userId) {
         return taskRepository.findByAssignedUser(userId);
     }
 
+    // Obtiene las tareas por departamento
     public List<Task> getTasksByDepartment(String departmentId) {
         return taskRepository.findByDepartment(departmentId);
     }
 
-    public List<Task> getTasksByDepartment(String departmentId) {
-        return taskRepository.findByDepartment(departmentId);
-    }
-
+    // Obtiene las tareas por área
     public List<Task> getTasksByArea(String areaId) {
         return taskRepository.findByArea(areaId);
     }
-    
-
 }

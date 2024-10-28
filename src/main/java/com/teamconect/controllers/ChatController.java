@@ -1,4 +1,3 @@
-// ChatController.java
 package com.teamconect.controllers;
 
 import com.teamconect.models.ChatMessage;
