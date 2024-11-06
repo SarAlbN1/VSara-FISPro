@@ -1,3 +1,5 @@
+// src/main/java/com/teamconect/services/ChatService.java
+
 package com.teamconect.services;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class ChatService {
         return messageRepository.save(message);
     }
 
-    public List<ChatMessage> getMessagesByUserId(String userId) {
+    public List<ChatMessage> getMessagesByUserId(Long userId) {
         return messageRepository.findByUserId(userId);
     }
 }
