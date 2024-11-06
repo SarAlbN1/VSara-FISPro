@@ -1,14 +1,13 @@
 package com.teamconect.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.teamconect.dtos.AutenticacionDTO;
+import com.teamconect.models.User;
 import com.teamconect.services.AuthService;
+import com.teamconect.services.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -17,24 +16,40 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/login")
-    public String loginUser(@RequestBody AutenticacionDTO authDTO) {
+    public ResponseEntity<String> loginUser(@RequestBody AutenticacionDTO authDTO) {
         boolean isUserValid = authService.validateCredentials(authDTO);
-        return isUserValid ? "authenticated" : "error";
+        return isUserValid 
+            ? ResponseEntity.ok("authenticated") 
+            : ResponseEntity.status(401).body("error"); // 401 Unauthorized
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        User newUser = userService.registerUser(user);
+        return newUser != null 
+            ? ResponseEntity.ok("registration_success") 
+            : ResponseEntity.status(400).body("registration_failed"); // 400 Bad Request
     }
 
     @PostMapping("/send-code")
-    public String sendVerificationCode(@RequestParam String phoneNumber) {
+    public ResponseEntity<String> sendVerificationCode(@RequestParam String phoneNumber) {
         boolean isCodeSent = authService.sendVerificationCode(phoneNumber);
-        return isCodeSent ? "code_sent" : "phone_mismatch";
+        return isCodeSent 
+            ? ResponseEntity.ok("code_sent") 
+            : ResponseEntity.status(404).body("phone_mismatch"); // 404 Not Found
     }
 
     @PostMapping("/verify-code")
-    public String verifyCode(@RequestParam String code) {
+    public ResponseEntity<String> verifyCode(@RequestParam String code) {
         boolean isCodeValid = authService.verifyCode(code);
         if (isCodeValid) {
-            return authService.getAuthenticatedUserRole();
+            String role = authService.getAuthenticatedUserRole();
+            return ResponseEntity.ok(role); // Devuelve el rol si la autenticación es exitosa
         }
-        return "error";
+        return ResponseEntity.status(401).body("error"); // 401 Unauthorized
     }
 }

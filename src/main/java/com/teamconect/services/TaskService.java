@@ -18,24 +18,25 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateTaskStatus(Long taskId, String status) {
+    public boolean updateTaskStatus(Long taskId, String status) {
         return taskRepository.findById(taskId)
                 .map(task -> {
                     task.setStatus(status);
-                    return taskRepository.save(task);
+                    taskRepository.save(task);
+                    return true;
                 })
-                .orElse(null);
+                .orElse(false);
     }
 
-    public List<Task> getTasksByUser(Long userId) {  // Cambiado a String
+    public List<Task> getTasksByUser(Long userId) {
         return taskRepository.findByAssignedUserId(userId);
     }
 
-    public List<Task> getTasksByDepartment(Long departmentID) {  // Cambiado a String
+    public List<Task> getTasksByDepartment(Long departmentID) {
         return taskRepository.findByDepartment(departmentID);
     }
 
-    public List<Task> getTasksByArea(Long area) {  // Cambiado a String
+    public List<Task> getTasksByArea(Long area) {
         return taskRepository.findByArea(area);
     }
 }

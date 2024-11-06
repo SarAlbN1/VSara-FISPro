@@ -14,8 +14,22 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    private User authenticatedUser;
+
     public User registerUser(User user) {
         return userRepository.save(user);
+    }
+
+    public User getAuthenticatedUser() {
+        return authenticatedUser;
+    }
+
+    public List<User> getDepartmentColleagues() {
+        return userRepository.findByDepartment(authenticatedUser.getDepartamento());
+    }
+
+    public void setAuthenticatedUser(User user) {
+        this.authenticatedUser = user;
     }
 
     public User assignRoleAndDepartment(Long userId, String role, String department) {

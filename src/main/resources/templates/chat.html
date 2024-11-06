@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Chat en Tiempo Real</title>
@@ -8,32 +8,49 @@
 </head>
 <body>
     <h2>Chat Privado</h2>
+    
+    <!-- Campos para ingreso de IDs -->
     <label for="senderId">Tu ID:</label>
     <input type="text" id="senderId" placeholder="Tu ID"/>
-    <label for="receiverId">ID del Destinatario:</label>
-    <input type="text" id="receiverId" placeholder="ID del destinatario"/>
+    <button onclick="connect()">Conectar</button> <!-- Botón para conectar después de ingresar el ID -->
 
-    <div id="chat-window">
-        <ul id="private-messages"></ul>
+    <div id="chat-container" style="display: none;">
+        <label for="receiverId">ID del Destinatario:</label>
+        <input type="text" id="receiverId" placeholder="ID del destinatario"/>
+        
+        <div id="chat-window">
+            <ul id="private-messages"></ul>
+        </div>
+        <input type="text" id="message" placeholder="Escribe un mensaje..."/>
+        <button onclick="sendMessage()">Enviar</button>
     </div>
-    <input type="text" id="message" placeholder="Escribe un mensaje..."/>
-    <button onclick="sendMessage()">Enviar</button>
 
     <script>
         let stompClient = null;
 
         function connect() {
+            const senderId = document.getElementById("senderId").value;
+            if (!senderId) {
+                alert("Por favor, ingresa tu ID antes de conectar.");
+                return;
+            }
+
             const socket = new SockJS('/ws');
             stompClient = Stomp.over(socket);
 
             stompClient.connect({}, function (frame) {
                 console.log('Conectado: ' + frame);
-                
+
+                document.getElementById("chat-container").style.display = "block";
+
                 // Suscripción a mensajes privados para el usuario actual
-                const senderId = document.getElementById("senderId").value;
                 stompClient.subscribe(`/user/${senderId}/topic/private`, function (message) {
-                    showMessage(JSON.parse(message.body).content);
+                    const parsedMessage = JSON.parse(message.body);
+                    showMessage(parsedMessage.content, parsedMessage.senderId);
                 });
+            }, function (error) {
+                console.error("Error de conexión", error);
+                alert("Error de conexión. Intenta nuevamente.");
             });
         }
 
@@ -41,21 +58,27 @@
             const senderId = document.getElementById("senderId").value;
             const receiverId = document.getElementById("receiverId").value;
             const content = document.getElementById("message").value;
-            
-            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({
+
+            if (!content || !receiverId) {
+                alert("Por favor, completa todos los campos antes de enviar.");
+                return;
+            }
+
+            stompClient.send("/app/chat.privateMessage", {}, JSON.stringify({
                 senderId: senderId,
                 receiverId: receiverId,
                 content: content
             }));
+
+            // Limpiar el campo de entrada de mensaje después de enviar
+            document.getElementById("message").value = "";
         }
 
-        function showMessage(message) {
+        function showMessage(content, senderId) {
             const messageElement = document.createElement("li");
-            messageElement.appendChild(document.createTextNode(message));
+            messageElement.textContent = `${senderId}: ${content}`;
             document.getElementById("private-messages").appendChild(messageElement);
         }
-
-        connect();
     </script>
 </body>
 </html>

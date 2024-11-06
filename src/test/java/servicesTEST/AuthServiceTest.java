@@ -1,21 +1,25 @@
 package servicesTEST;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.anyString;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import com.teamconect.dtos.AutenticacionDTO;
 import com.teamconect.models.User;
 import com.teamconect.repositories.UserRepository;
 import com.teamconect.services.AuthService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.MockedStatic;
-import org.springframework.boot.test.context.SpringBootTest;
 import com.twilio.Twilio;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class AuthServiceTest {
@@ -50,9 +54,8 @@ public class AuthServiceTest {
     public void testSendVerificationCode_Success() {
         String phoneNumber = "+1234567890";
         User user = new User();
-        user.setPhoneNumber(Integer.parseInt(phoneNumber.replaceAll("[^\\d]", ""))); // Casting del número a int sin caracteres especiales
+        user.setPhoneNumber(Integer.parseInt(phoneNumber.replaceAll("[^\\d]", "")));
 
-        // Usar un método protegido o un setter en `AuthService` si se necesita acceder a authenticatedUser
         authService.setAuthenticatedUser(user);
 
         try (MockedStatic<Twilio> mockedTwilio = mockStatic(Twilio.class)) {
@@ -65,8 +68,6 @@ public class AuthServiceTest {
     @Test
     public void testVerifyCode_Success() {
         String code = "123456";
-        
-        // Usar un método protegido o un setter en `AuthService` si se necesita acceso a generatedCode
         authService.setGeneratedCode(code);
 
         boolean result = authService.verifyCode(code);
@@ -78,8 +79,6 @@ public class AuthServiceTest {
     public void testGetAuthenticatedUserRole() {
         User user = new User();
         user.setRol("Admin");
-        
-        // Usar un método protegido o un setter en `AuthService` si se necesita acceder a authenticatedUser
         authService.setAuthenticatedUser(user);
 
         String role = authService.getAuthenticatedUserRole();

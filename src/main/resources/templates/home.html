@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio - Team Connect</title>
+    <link rel="stylesheet" href="/static/styles/teamConnect.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Barra Lateral de Navegación -->
+        <div class="sidebar">
+            <h3>Servicios</h3>
+            <ul>
+                <li><a href="/task-list.html">Lista de Tareas</a></li>
+                <li><a href="/chat.html">Chat</a></li>
+                <li><a href="/task-progress.html">Progreso de Tareas</a></li>
+                <!-- Agrega más enlaces de servicios según sea necesario -->
+            </ul>
+
+            <h3>Notificaciones</h3>
+            <ul id="notifications">
+                <!-- Las notificaciones se cargarán aquí -->
+            </ul>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="content">
+            <div class="user-info">
+                <h2>Bienvenido, <span id="userName">Usuario</span></h2>
+                <p><strong>Rol:</strong> <span id="userRole">Rol del Usuario</span></p>
+                <p><strong>Departamento:</strong> <span id="userDepartment">Departamento del Usuario</span></p>
+                <p><strong>Email:</strong> <span id="userEmail">email@example.com</span></p>
+                <p><strong>Número de Teléfono:</strong> <span id="userPhone">Número de Teléfono</span></p>
+            </div>
+
+            <h3>Compañeros en el Departamento</h3>
+            <ul id="colleagues">
+                <!-- Los compañeros se cargarán aquí -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function loadUserInfo() {
+            try {
+                // Obtener la información del usuario
+                const userInfo = await fetch("/api/home/user-info").then(res => res.json());
+                document.getElementById("userName").textContent = userInfo.name;
+                document.getElementById("userRole").textContent = userInfo.rol;
+                document.getElementById("userDepartment").textContent = userInfo.departamento;
+                document.getElementById("userEmail").textContent = userInfo.email;
+                document.getElementById("userPhone").textContent = userInfo.phoneNumber;
+
+                // Cargar la lista de compañeros de departamento
+                const colleagues = await fetch("/api/home/department-colleagues").then(res => res.json());
+                const colleaguesList = document.getElementById("colleagues");
+                colleaguesList.innerHTML = ""; // Limpiar cualquier contenido previo
+                colleagues.forEach(colleague => {
+                    const li = document.createElement("li");
+                    li.textContent = `${colleague.name} - ${colleague.email}`;
+                    colleaguesList.appendChild(li);
+                });
+
+                // Cargar notificaciones
+                const notifications = await fetch("/api/home/notifications").then(res => res.json());
+                const notificationsList = document.getElementById("notifications");
+                notificationsList.innerHTML = ""; // Limpiar cualquier contenido previo
+                notifications.forEach(notification => {
+                    const li = document.createElement("li");
+                    li.textContent = notification.message;
+                    notificationsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error al cargar la información del usuario:", error);
+            }
+        }
+
+        // Cargar la información al iniciar la página
+        loadUserInfo();
+    </script>
+</body>
+</html>

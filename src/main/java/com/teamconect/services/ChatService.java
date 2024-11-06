@@ -1,5 +1,3 @@
-// src/main/java/com/teamconect/services/ChatService.java
-
 package com.teamconect.services;
 
 import java.util.List;

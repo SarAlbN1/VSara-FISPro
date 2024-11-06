@@ -1,10 +1,10 @@
-package com.teamconect.dtos;
+package dtosTEST;
 
 public class TaskDTO {
     private Long taskId;
     private String taskTitle;
     private String taskDescription;
-    private Long assignedUserId;
+    private Long taskAssignedUserId;
     private String taskStatus;
 
     // Constructor vacío
@@ -15,7 +15,7 @@ public class TaskDTO {
         this.taskId = taskId;
         this.taskTitle = title;
         this.taskDescription = description;
-        this.assignedUserId = assignedUserId;
+        this.taskAssignedUserId = assignedUserId;
         this.taskStatus = status;
     }
 
@@ -28,35 +28,35 @@ public class TaskDTO {
         this.taskId = taskId;
     }
 
-    public String getTaskTitle() {
+    public String getTitle() {
         return taskTitle;
     }
 
-    public void setTaskTitle(String taskTitle) {
-        this.taskTitle = taskTitle;
+    public void setTitle(String title) {
+        this.taskTitle = title;
     }
 
-    public String getTaskDescription() {
+    public String getDescription() {
         return taskDescription;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setDescription(String description) {
+        this.taskDescription = description;
     }
 
     public Long getAssignedUserId() {
-        return assignedUserId;
+        return taskAssignedUserId;
     }
 
     public void setAssignedUserId(Long assignedUserId) {
-        this.assignedUserId = assignedUserId;
+        this.taskAssignedUserId = assignedUserId;
     }
 
-    public String getTaskStatus() {
+    public String getStatus() {
         return taskStatus;
     }
 
-    public void setTaskStatus(String taskStatus) {
-        this.taskStatus = taskStatus;
+    public void setStatus(String status) {
+        this.taskStatus = status;
     }
 }

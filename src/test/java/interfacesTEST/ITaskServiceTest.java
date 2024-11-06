@@ -17,30 +17,30 @@ public class ITaskServiceTest {
 
     @Test
     public void testAssignTask() {
-        TaskDTO task = new TaskDTO("Task1", "Description1", "User1", "Pending");
+        TaskDTO task = new TaskDTO(1L, "Task1", "Description1", 1L, "Pending");
         Mockito.when(taskService.assignTask(task)).thenReturn(task);
-
+    
         TaskDTO result = taskService.assignTask(task);
         assertNotNull(result);
-        assertEquals("Task1", result.getTitle());
+        assertEquals("Task1", result.getTasktitle()); // Asegúrate de que este método existe en TaskDTO
     }
-
+    
     @Test
     public void testUpdateTaskStatus() {
-        String taskId = "1";
+        Long taskId = 1L;
         String newStatus = "Completed";
-        TaskDTO task = new TaskDTO("Task1", "Description1", "User1", newStatus);
+        TaskDTO task = new TaskDTO(1L, "Task1", "Description1", 1L, newStatus);
         Mockito.when(taskService.updateTaskStatus(taskId, newStatus)).thenReturn(task);
-
+    
         TaskDTO result = taskService.updateTaskStatus(taskId, newStatus);
-        assertEquals(newStatus, result.getStatus());
+        assertEquals(newStatus, result.getTaskstatus()); // Asegúrate de que este método existe en TaskDTO
     }
 
     @Test
     public void testGetTasksByUser() {
-        String userId = "User1";
-        TaskDTO task1 = new TaskDTO("Task1", "Description1", userId, "Pending");
-        TaskDTO task2 = new TaskDTO("Task2", "Description2", userId, "Completed");
+        Long userId = 1L;
+        TaskDTO task1 = new TaskDTO("Task1", "Description1", userId.toString(), "Pending");
+        TaskDTO task2 = new TaskDTO("Task2", "Description2", userId.toString(), "Completed");
 
         List<TaskDTO> tasks = Arrays.asList(task1, task2);
         Mockito.when(taskService.getTasksByUser(userId)).thenReturn(tasks);
@@ -51,7 +51,7 @@ public class ITaskServiceTest {
 
     @Test
     public void testGetTasksByDepartment() {
-        String departmentId = "Dept1";
+        Long departmentId = 1L;
         TaskDTO task1 = new TaskDTO("Task1", "Description1", "User1", "Pending");
         TaskDTO task2 = new TaskDTO("Task2", "Description2", "User2", "Completed");
 
@@ -64,7 +64,7 @@ public class ITaskServiceTest {
 
     @Test
     public void testGetTasksByArea() {
-        String areaId = "Area1";
+        Long areaId = 1L;
         TaskDTO task1 = new TaskDTO("Task1", "Description1", "User1", "Pending");
         TaskDTO task2 = new TaskDTO("Task2", "Description2", "User2", "Completed");
 

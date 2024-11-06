@@ -21,7 +21,6 @@ public class AuthService {
     private String generatedCode;
     private User authenticatedUser;
 
-    // Twilio configuration from environment variables
     private final String TWILIO_SID = System.getenv("TWILIO_ACCOUNT_SID");
     private final String TWILIO_AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
     private final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
@@ -37,18 +36,19 @@ public class AuthService {
 
     public boolean sendVerificationCode(String phoneNumber) {
         if (authenticatedUser != null && String.valueOf(authenticatedUser.getPhoneNumber()).equals(phoneNumber)) {
-            // Generate random code
-            generatedCode = String.valueOf(100000 + new Random().nextInt(900000));
-
-            // Initialize Twilio and send the SMS
+            generatedCode = String.format("%04d", new Random().nextInt(10000));
             Twilio.init(TWILIO_SID, TWILIO_AUTH_TOKEN);
-            Message.creator(
-                    new PhoneNumber(phoneNumber),
-                    new PhoneNumber(TWILIO_PHONE_NUMBER),
-                    "Su código de verificación es: " + generatedCode
-            ).create();
-
-            return true;
+            try {
+                Message.creator(
+                        new PhoneNumber(phoneNumber),
+                        new PhoneNumber(TWILIO_PHONE_NUMBER),
+                        "Su código de verificación es: " + generatedCode
+                ).create();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
         }
         return false;
     }

@@ -3,57 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Autenticación de Usuario</title>
+    <link rel="stylesheet" href="/static/styles/teamConnect.css">
 </head>
 <body>
-    <h2>Inicio de Sesión</h2>
-    <form id="loginForm">
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" required>
+    <div class="container">
+        <div class="content">
+            <h2>Verificación de Teléfono</h2>
 
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" required>
+            <!-- Sección para verificar el número de teléfono -->
+            <div id="phoneSection">
+                <h3>Confirma tu número de teléfono</h3>
+                <form id="phoneForm">
+                    <label for="phoneNumber">Número de Teléfono:</label>
+                    <input type="text" id="phoneNumber" required>
+                    <button type="submit">Enviar Código</button>
+                </form>
+                <p id="phoneMessage"></p>
+            </div>
 
-        <button type="submit">Iniciar Sesión</button>
-    </form>
-
-    <div id="phoneSection" style="display:none;">
-        <h3>Verificación de Teléfono</h3>
-        <form id="phoneForm">
-            <label for="phoneNumber">Número de Teléfono:</label>
-            <input type="text" id="phoneNumber" required>
-            <button type="submit">Enviar Código</button>
-        </form>
-    </div>
-
-    <div id="codeSection" style="display:none;">
-        <h3>Ingrese el Código de Verificación</h3>
-        <form id="codeForm">
-            <label for="verificationCode">Código de Verificación:</label>
-            <input type="text" id="verificationCode" required>
-            <button type="submit">Verificar Código</button>
-        </form>
+            <!-- Sección para ingresar el código de verificación -->
+            <div id="codeSection" style="display:none;">
+                <h3>Ingrese el Código de Verificación</h3>
+                <form id="codeForm">
+                    <label for="verificationCode">Código de Verificación:</label>
+                    <input type="text" id="verificationCode" required>
+                    <button type="submit">Verificar Código</button>
+                </form>
+                <p id="codeMessage"></p>
+            </div>
+        </div>
     </div>
 
     <script>
-        document.getElementById("loginForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-
-            const response = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });
-
-            if (await response.text() === "authenticated") {
-                document.getElementById("loginForm").style.display = "none";
-                document.getElementById("phoneSection").style.display = "block";
-            } else {
-                alert("Credenciales incorrectas");
-            }
-        });
-
+        // Enviar el número de teléfono para recibir el código
         document.getElementById("phoneForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const phoneNumber = document.getElementById("phoneNumber").value;
@@ -65,11 +47,14 @@
             if (await response.text() === "code_sent") {
                 document.getElementById("phoneSection").style.display = "none";
                 document.getElementById("codeSection").style.display = "block";
+                document.getElementById("phoneMessage").textContent = "";
             } else {
-                alert("El número de teléfono no coincide con el registrado.");
+                document.getElementById("phoneMessage").textContent = "El número de teléfono no coincide con el registrado.";
+                document.getElementById("phoneMessage").style.color = "red";
             }
         });
 
+        // Verificar el código de autenticación
         document.getElementById("codeForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const code = document.getElementById("verificationCode").value;
@@ -78,13 +63,24 @@
             const role = await response.text();
 
             if (role !== "error") {
-                alert("Autenticación exitosa. Redirigiendo...");
-                // Redirigir según el rol
-                if (role === "Lider") window.location.href = "/lider-view.html";
-                else if (role === "Profesional") window.location.href = "/profesional-view.html";
-                // Otros roles pueden seguir el mismo patrón...
+                document.getElementById("codeMessage").textContent = "Autenticación exitosa. Redirigiendo...";
+                document.getElementById("codeMessage").style.color = "green";
+
+                // Redirigir según el rol del usuario
+                setTimeout(() => {
+                    if (role === "Lider") window.location.href = "/coordinator-manager.html";
+                    else if (role === "Profesional") window.location.href = "/professional-view.html";
+                    else if (role === "Asistente") window.location.href = "/assistant.html";
+                    else window.location.href = "/home.html";
+                }, 2000); // Espera de 2 segundos antes de redirigir
             } else {
-                alert("Código de verificación incorrecto.");
+                document.getElementById("codeMessage").textContent = "Código de verificación incorrecto. Redirigiendo al inicio de sesión...";
+                document.getElementById("codeMessage").style.color = "red";
+
+                // Redirigir a la página de inicio de sesión después de 2 segundos
+                setTimeout(() => {
+                    window.location.href = "/login.html";
+                }, 2000);
             }
         });
     </script>
