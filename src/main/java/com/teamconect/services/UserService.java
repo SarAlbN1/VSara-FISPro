@@ -1,12 +1,12 @@
 package com.teamconect.services;
 
-import com.teamconect.dtos.UsuarioRolDTO;
-import com.teamconect.models.User;
-import com.teamconect.repositories.UserRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.teamconect.models.User;
+import com.teamconect.repositories.UserRepository;
 
 @Service
 public class UserService {
@@ -18,14 +18,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User assignRoleAndDepartment(UsuarioRolDTO usuarioRolDTO) {
-        Optional<User> userOptional = userRepository.findById(usuarioRolDTO.getUserId());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setRolId(usuarioRolDTO.getRolId());
-            user.setDepartamentoId(usuarioRolDTO.getDepartamentoId());
+    public User assignRoleAndDepartment(Long userId, String role, String department) {
+        return userRepository.findById(userId).map(user -> {
+            user.setRol(role);
+            user.setDepartamento(department);
             return userRepository.save(user);
-        }
-        return null;
+        }).orElse(null);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
