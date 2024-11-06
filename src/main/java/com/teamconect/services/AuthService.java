@@ -60,4 +60,12 @@ public class AuthService {
     public String getAuthenticatedUserRole() {
         return authenticatedUser != null ? authenticatedUser.getRol() : null;
     }
+
+    public void setAuthenticatedUser(User user) {
+        this.authenticatedUser = user;
+    }
+
+    public void setGeneratedCode(String code) {
+        this.generatedCode = code;
+    }
 }
