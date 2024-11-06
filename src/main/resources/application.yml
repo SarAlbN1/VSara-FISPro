@@ -1,20 +1,25 @@
 spring:
   application:
-    name: team-conect
+    name: team-connect
   datasource:
-    url: "jdbc:postgresql://ep-spring-sound-a5808511.us-east-2.aws.neon.tech/music-shop-group-3"
-    username: music-shop_owner
-    password: ZXIr9QuGR3Mt
+    url: "jdbc:postgresql://ep-late-breeze-a5yziogg.us-east-2.aws.neon.tech/TeamDB"
+    username: TeamConnect_owner
+    password: yrESuNdK62Qv
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 8080
 
+#postgresql://TeamConnect_owner:yrESuNdK62Qv@ep-late-breeze-a5yziogg.us-east-2.aws.neon.tech/TeamDB?sslmode=require
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
 twilio:
   account_sid: "ACa76ab22c34db6dc67da37da09c7044f9"
   auth_token: "96b687d4e2e75a270330883155ba5dec"

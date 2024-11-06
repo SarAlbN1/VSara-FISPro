@@ -9,11 +9,21 @@ public class MainController {
 
     @RequestMapping("/")
     public String redirectToLogin() {
-        return "redirect:/login"; // Redirige a login.html cuando no está autenticado
+        return "redirect:login"; // Redirige a login.html cuando no está autenticado
     }
 
     @GetMapping("/home")
     public String home() {
         return "home";  // Carga la vista principal después de autenticarse
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login"; // Carga la vista de inicio de sesión
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register"; // Carga la vista de inicio de sesión
     }
 }

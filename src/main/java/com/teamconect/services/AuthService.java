@@ -15,8 +15,7 @@ import com.twilio.type.PhoneNumber;
 @Service
 public class AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     private String generatedCode;
     private User authenticatedUser;
@@ -24,6 +23,11 @@ public class AuthService {
     private final String TWILIO_SID = System.getenv("TWILIO_ACCOUNT_SID");
     private final String TWILIO_AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
     private final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
+
+    @Autowired
+    public AuthService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public boolean validateCredentials(AutenticacionDTO authDTO) {
         User user = userRepository.findByEmail(authDTO.getEmail());

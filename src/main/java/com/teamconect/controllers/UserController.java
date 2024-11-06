@@ -18,8 +18,12 @@ import com.teamconect.services.UserService;
 @RequestMapping("/api/users")
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public User registerUser(@RequestBody UserDTO userDTO) {

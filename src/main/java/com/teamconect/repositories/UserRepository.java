@@ -8,5 +8,5 @@ import com.teamconect.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
-    List<User> findByDepartment(String department);
+    List<User> findByDepartamento(String department);
 }

@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public List<User> getDepartmentColleagues() {
-        return userRepository.findByDepartment(authenticatedUser.getDepartamento());
+        return userRepository.findByDepartamento(authenticatedUser.getDepartamento());
     }
 
     public void setAuthenticatedUser(User user) {

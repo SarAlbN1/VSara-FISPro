@@ -22,9 +22,7 @@ public class TaskAssignmentController {
             taskDTO.getTaskTitle(),
             taskDTO.getTaskDescription(),
             taskDTO.getAssignedUserId(),
-            taskDTO.getTaskStatus(),
-            null, // Puedes establecer el departamento si aplica
-            null  // Puedes establecer el área si aplica
+            taskDTO.getTaskStatus()
         );
 
         Task assignedTask = taskService.assignTask(task);

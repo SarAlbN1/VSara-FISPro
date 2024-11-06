@@ -2,6 +2,7 @@ package com.teamconect.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.teamconect.dtos.AutenticacionDTO;
@@ -9,15 +10,20 @@ import com.teamconect.models.User;
 import com.teamconect.services.AuthService;
 import com.teamconect.services.UserService;
 
-@RestController
+@Controller
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
+    public AuthController(AuthService authService, UserService userService) {
+        this.authService = authService;
+        this.userService = userService;
+    }
+
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody AutenticacionDTO authDTO) {
