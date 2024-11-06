@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Lista de Tareas</title>
@@ -21,13 +21,13 @@
         async function fetchTasks() {
             const filter = document.getElementById('filter').value;
             const value = document.getElementById('filterValue').value;
-            const response = await fetch(`/tasks/by-${filter}/${value}`);
+            const response = await fetch(`/api/tasks/by-${filter}/${value}`);
             const tasks = await response.json();
             const taskList = document.getElementById('taskList');
             taskList.innerHTML = '';
             tasks.forEach(task => {
                 const listItem = document.createElement('li');
-                listItem.textContent = task.title + ' - ' + task.description;
+                listItem.textContent = `${task.title} - ${task.description}`;
                 taskList.appendChild(listItem);
             });
         }

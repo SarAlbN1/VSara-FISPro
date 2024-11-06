@@ -1,29 +1,52 @@
 package com.teamconect.dtos;
 
 public class TaskDTO {
-    private String title;
-    private String description;
-    private String assignedUserId;
-    private String status;
+    private String Tasktitle;
+    private String Taskdescription;
+    private String TaskassignedUserId;
+    private String Taskstatus;
 
+    // Constructor vacío
     public TaskDTO() {}
 
+    // Constructor con parámetros
     public TaskDTO(String title, String description, String assignedUserId, String status) {
-        this.title = title;
-        this.description = description;
-        this.assignedUserId = assignedUserId;
-        this.status = status;
+        this.Tasktitle = title;
+        this.Taskdescription = description;
+        this.TaskassignedUserId = assignedUserId;
+        this.Taskstatus = status;
     }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    // Getters y Setters
+    public String getTitle() {
+        return Tasktitle;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setTitle(String title) {
+        this.Tasktitle = title;
+    }
 
-    public String getAssignedUserId() { return assignedUserId; }
-    public void setAssignedUserId(String assignedUserId) { this.assignedUserId = assignedUserId; }
+    public String getDescription() {
+        return Taskdescription;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setDescription(String description) {
+        this.Taskdescription = description;
+    }
+
+    public String getAssignedUserId() {
+        return TaskassignedUserId;
+    }
+
+    public void setAssignedUserId(String assignedUserId) {
+        this.TaskassignedUserId = assignedUserId;
+    }
+
+    public String getStatus() {
+        return Taskstatus;
+    }
+
+    public void setStatus(String status) {
+        this.Taskstatus = status;
+    }
 }

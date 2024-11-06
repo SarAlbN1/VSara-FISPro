@@ -1,0 +1,100 @@
+{
+    // Python configuration
+    "[python]": {
+        "editor.formatOnType": true
+    },
+
+    // CMake configuration
+    "cmake.configureOnOpen": true,
+    "security.workspace.trust.untrustedFiles": "open",
+
+    // C++ configuration
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+
+    // Java configuration
+    "redhat.telemetry.enabled": true,
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java"
+    },
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-1.8",
+            "path": "/Library/Java/JavaVirtualMachines/jdk-22.0.1.jdk/Contents/Home"
+        },
+        {
+            "name": "JavaSE-11",
+            "path": "/Library/Java/JavaVirtualMachines/jdk-22.0.1.jdk/Contents/Home",
+            "sources": "/Library/Java/JavaVirtualMachines/jdk-22.0.1.jdk/lib/src.zip",
+            "javadoc": "https://docs.oracle.com/en/java/javase/11/docs/api",
+            "default": true
+        }
+    ],
+    "java.completion.favoriteStaticMembers": [
+        "org.junit.Assert.*",
+        "org.junit.Assume.*",
+        "org.junit.jupiter.api.Assertions.*",
+        "org.junit.jupiter.api.Assumptions.*",
+        "org.junit.jupiter.api.DynamicContainer.*",
+        "org.junit.jupiter.api.DynamicTest.*",
+        "org.mockito.Mockito.*",
+        "org.mockito.ArgumentMatchers.*",
+        "org.mockito.Answers.*"
+    ],
+
+    // Oracle SQL configuration
+    "[oraclesql]": {
+        "editor.suggest.showSnippets": true,
+        "editor.quickSuggestions": {
+            "comments": "on",
+            "strings": "on",
+            "other": "on"
+        }
+    },
+
+    // SQL configuration
+    "[sql]": {
+        "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+    },
+    "sqldeveloper.telemetry.enabled": true,
+
+    // XML configuration
+    "[xml]": {
+        "editor.defaultFormatter": "DotJoshJohnson.xml"
+    },
+
+    // Git configuration
+    "git.openRepositoryInParentFolders": "always",
+
+    // Additional language-specific formatters
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+
+    // File associations
+    "files.associations": {
+        "*.java": "java"
+    },
+
+    // General configuration
+    "editor.minimap.enabled": false,
+    "files.autoSave": "onWindowChange",
+    "editor.fontSize": 11,
+    "update.mode": "start",
+    "editor.find.autoFindInSelection": "multiline",
+    "files.autoGuessEncoding": true,
+    "workbench.preferredDarkColorTheme": "Visual Studio Dark - C++",
+    "workbench.list.smoothScrolling": true,
+    "application.experimental.rendererProfiling": true,
+    "editor.defaultColorDecorators": true,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "C_Cpp.autocompleteAddParentheses": true,
+    "netbeans.javaSupport.enabled": true,
+}

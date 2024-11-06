@@ -19,13 +19,22 @@ public class AuthController {
 
     @PostMapping("/login")
     public String loginUser(@RequestBody AutenticacionDTO authDTO) {
-        boolean authenticated = authService.authenticateUser(authDTO);
-        return authenticated ? "Inicio de sesión exitoso" : "Error en autenticación";
+        boolean isUserValid = authService.validateCredentials(authDTO);
+        return isUserValid ? "authenticated" : "error";
     }
 
     @PostMapping("/send-code")
     public String sendVerificationCode(@RequestParam String phoneNumber) {
-        authService.sendVerificationCode(phoneNumber);
-        return "Código de verificación enviado";
+        boolean isCodeSent = authService.sendVerificationCode(phoneNumber);
+        return isCodeSent ? "code_sent" : "phone_mismatch";
+    }
+
+    @PostMapping("/verify-code")
+    public String verifyCode(@RequestParam String code) {
+        boolean isCodeValid = authService.verifyCode(code);
+        if (isCodeValid) {
+            return authService.getAuthenticatedUserRole();
+        }
+        return "error";
     }
 }

@@ -4,13 +4,15 @@ public class AutenticacionDTO {
     private String email;
     private String password;
     private String verificationCode;
+    private String phoneNumber;
 
     public AutenticacionDTO() {}
 
-    public AutenticacionDTO(String email, String password, String verificationCode) {
+    public AutenticacionDTO(String email, String password, String verificationCode, String phoneNumber) {
         this.email = email;
         this.password = password;
         this.verificationCode = verificationCode;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() { return email; }
@@ -21,4 +23,7 @@ public class AutenticacionDTO {
 
     public String getVerificationCode() { return verificationCode; }
     public void setVerificationCode(String verificationCode) { this.verificationCode = verificationCode; }
+
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 }

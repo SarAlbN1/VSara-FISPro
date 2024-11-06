@@ -3,7 +3,6 @@ package com.teamconect.services;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.teamconect.dtos.AutenticacionDTO;
@@ -11,6 +10,7 @@ import com.teamconect.models.User;
 import com.teamconect.repositories.UserRepository;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 @Service
 public class AuthService {
@@ -19,45 +19,45 @@ public class AuthService {
     private UserRepository userRepository;
 
     private String generatedCode;
+    private User authenticatedUser;
 
-    // Configuración de Twilio
-    @Value("${twilio.account_sid}")
-    private String accountSid;
+    // Twilio configuration from environment variables
+    private final String TWILIO_SID = System.getenv("TWILIO_ACCOUNT_SID");
+    private final String TWILIO_AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
+    private final String TWILIO_PHONE_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
 
-    @Value("${twilio.auth_token}")
-    private String authToken;
-
-    @Value("${twilio.phone_number}")
-    private String twilioPhoneNumber;
-
-    // Inicializa Twilio con las credenciales de la cuenta
-    private void initializeTwilio() {
-        Twilio.init(accountSid, authToken);
-    }
-
-    // Genera un código de verificación de 6 dígitos
-    public String generateVerificationCode() {
-        generatedCode = String.valueOf(100000 + new Random().nextInt(900000));
-        return generatedCode;
-    }
-
-    // Envía el código de verificación por SMS usando Twilio
-    public void sendVerificationCode(String userPhoneNumber) {
-        initializeTwilio();  // Inicializa Twilio solo cuando se va a enviar el SMS
-
-        Message message = Message.creator(
-                new com.twilio.type.PhoneNumber(userPhoneNumber),
-                new com.twilio.type.PhoneNumber(twilioPhoneNumber),
-                "Tu código de verificación es: " + generatedCode)
-            .create();
-
-        System.out.println("Código de verificación enviado. SID del mensaje: " + message.getSid());
-    }
-
-    // Método de autenticación que verifica el código de usuario
-    public boolean authenticateUser(AutenticacionDTO authDTO) {
+    public boolean validateCredentials(AutenticacionDTO authDTO) {
         User user = userRepository.findByEmail(authDTO.getEmail());
-        return user != null && user.getPassword().equals(authDTO.getPassword())
-               && authDTO.getVerificationCode().equals(generatedCode);
+        if (user != null && user.getPassword().equals(authDTO.getPassword())) {
+            authenticatedUser = user;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean sendVerificationCode(String phoneNumber) {
+        if (authenticatedUser != null && String.valueOf(authenticatedUser.getPhoneNumber()).equals(phoneNumber)) {
+            // Generate random code
+            generatedCode = String.valueOf(100000 + new Random().nextInt(900000));
+
+            // Initialize Twilio and send the SMS
+            Twilio.init(TWILIO_SID, TWILIO_AUTH_TOKEN);
+            Message.creator(
+                    new PhoneNumber(phoneNumber),
+                    new PhoneNumber(TWILIO_PHONE_NUMBER),
+                    "Su código de verificación es: " + generatedCode
+            ).create();
+
+            return true;
+        }
+        return false;
+    }
+
+    public boolean verifyCode(String code) {
+        return generatedCode != null && generatedCode.equals(code);
+    }
+
+    public String getAuthenticatedUserRole() {
+        return authenticatedUser != null ? authenticatedUser.getRol() : null;
     }
 }

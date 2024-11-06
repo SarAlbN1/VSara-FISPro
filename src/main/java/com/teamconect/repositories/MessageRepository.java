@@ -2,10 +2,10 @@ package com.teamconect.repositories;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.teamconect.models.ChatMessage;
 
-public interface MessageRepository extends MongoRepository<ChatMessage, String> {
-    List<ChatMessage> findByUserId(String userId);
+public interface MessageRepository extends JpaRepository<ChatMessage, Long> {
+    List<ChatMessage> findByUserId(Long userId);
 }

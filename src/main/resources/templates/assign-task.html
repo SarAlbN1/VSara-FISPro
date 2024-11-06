@@ -43,7 +43,7 @@
             };
 
             try {
-                const response = await fetch("/api/tasks/assign", {
+                const response = await fetch("/api/tasks/assign", { // Asegúrate de que esta ruta esté en el controlador correspondiente.
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

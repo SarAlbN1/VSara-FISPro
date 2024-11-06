@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="/static/styles/teamConnect.css">
+</head>
+<body>
+    <h2>Gestión de Usuarios</h2>
+    <div id="userList"></div>
+
+    <script>
+        async function fetchUsers() {
+            const response = await fetch("/api/users/all");
+            const users = await response.json();
+
+            let userListHTML = "<table><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Departamento</th><th>Acciones</th></tr>";
+            users.forEach(user => {
+                userListHTML += `<tr>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.rol || 'N/A'}</td>
+                    <td>${user.departamento || 'N/A'}</td>
+                    <td>
+                        <button onclick="editUser('${user.id}')">Editar</button>
+                    </td>
+                </tr>`;
+            });
+            userListHTML += "</table>";
+            document.getElementById("userList").innerHTML = userListHTML;
+        }
+
+        async function editUser(userId) {
+            const newRole = prompt("Ingrese el nuevo rol del usuario:");
+            const newDepartment = prompt("Ingrese el nuevo departamento del usuario:");
+
+            if (newRole && newDepartment) {
+                await fetch("/api/users/update-role-department", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ userId, rol: newRole, departamento: newDepartment })
+                });
+                fetchUsers();
+            }
+        }
+
+        fetchUsers();
+    </script>
+</body>
+</html>

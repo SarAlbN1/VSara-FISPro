@@ -1,42 +1,91 @@
 package com.teamconect.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Document(collection = "tasks")
+@Entity
 public class Task {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String title;
     private String description;
-    private String assignedUserId;
-    private String status; // Estado de la tarea: "pendiente", "en progreso", "completado"
+    private Long assignedUserId;  // Identificador de usuario asignado
+    private String status;
+    private Long department;  // Identificador de departamento
+    private Long area;  // Identificador de área
 
-    // Constructor vacío
+    // Constructor vacío requerido por JPA
     public Task() {}
 
-    // Constructor con parámetros
-    public Task(String title, String description, String assignedUserId, String status) {
+    // Constructor para inicializar los atributos
+    public Task(String title, String description, Long assignedUserId, String status, Long department, Long area) {
         this.title = title;
         this.description = description;
         this.assignedUserId = assignedUserId;
         this.status = status;
+        this.department = department;
+        this.area = area;
     }
 
-    // Getters y Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // Métodos getter y setter
+    public Long getId() {
+        return id;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getAssignedUserId() { return assignedUserId; }
-    public void setAssignedUserId(String assignedUserId) { this.assignedUserId = assignedUserId; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getAssignedUserId() {
+        return assignedUserId;
+    }
+
+    public void setAssignedUserId(Long assignedUserId) {
+        this.assignedUserId = assignedUserId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Long department) {
+        this.department = department;
+    }
+
+    public Long getArea() {
+        return area;
+    }
+
+    public void setArea(Long area) {
+        this.area = area;
+    }
 }

@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión</title>
     <link rel="stylesheet" href="/static/styles/teamConnect.css">
 </head>
@@ -16,12 +15,11 @@
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required>
 
-            <label for="verificationCode">Código de Verificación:</label>
-            <input type="text" id="verificationCode" name="verificationCode" required>
-
             <button type="submit">Iniciar Sesión</button>
         </form>
         <p id="message"></p>
+
+        <p>¿No tienes una cuenta? <a href="/register.html">Regístrate aquí</a></p>
     </div>
 
     <script>
@@ -30,8 +28,7 @@
             
             const authData = {
                 email: document.getElementById("email").value,
-                password: document.getElementById("password").value,
-                verificationCode: document.getElementById("verificationCode").value
+                password: document.getElementById("password").value
             };
 
             try {
@@ -44,9 +41,12 @@
                 });
 
                 if (response.ok) {
-                    document.getElementById("message").textContent = "Inicio de sesión exitoso.";
+                    window.location.href = "/auth.html";
+                } else if (response.status === 404) {
+                    document.getElementById("message").textContent = "Usuario no registrado. Por favor, regístrate.";
+                    document.getElementById("message").innerHTML += ' <a href="/register.html">Regístrate aquí</a>';
                 } else {
-                    document.getElementById("message").textContent = "Error en la autenticación. Verifica tus datos.";
+                    document.getElementById("message").textContent = "Credenciales incorrectas. Verifica tus datos.";
                 }
             } catch (error) {
                 document.getElementById("message").textContent = "Error de conexión. Intenta nuevamente.";

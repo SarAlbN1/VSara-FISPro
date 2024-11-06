@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Vista de Líder/Profesional</title>
+</head>
+<body>
+    <h2>Bienvenido Líder o Profesional</h2>
+    <p>Aquí puedes ver tus tareas, las tareas de tu departamento y chatear con otros.</p>
+    <ul>
+        <li><a href="#" onclick="loadUserTasks()">Ver Mis Tareas</a></li>
+        <li><a href="#" onclick="loadDepartmentTasks()">Ver Tareas del Departamento</a></li>
+        <li><a href="/chat.html">Chat</a></li>
+    </ul>
+
+    <div id="taskList"></div>
+
+    <script>
+        async function loadUserTasks() {
+            const userId = "yourUserId"; // Reemplaza con el ID real del usuario
+            const response = await fetch(`/api/tasks/by-user/${userId}`);
+            const tasks = await response.json();
+            displayTasks(tasks);
+        }
+
+        async function loadDepartmentTasks() {
+            const departmentId = "yourDepartmentId"; // Reemplaza con el ID real del departamento
+            const response = await fetch(`/api/tasks/by-department/${departmentId}`);
+            const tasks = await response.json();
+            displayTasks(tasks);
+        }
+
+        function displayTasks(tasks) {
+            const taskList = document.getElementById("taskList");
+            taskList.innerHTML = "<h3>Tareas</h3>";
+            tasks.forEach(task => {
+                const taskItem = document.createElement("p");
+                taskItem.textContent = `ID: ${task.id} - Título: ${task.title} - Estado: ${task.status}`;
+                taskList.appendChild(taskItem);
+            });
+        }
+    </script>
+</body>
+</html>

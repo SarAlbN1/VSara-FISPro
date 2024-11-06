@@ -20,20 +20,20 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping("/by-user/{userId}")
-    public ResponseEntity<List<Task>> getTasksByUser(@PathVariable String userId) {
+    public ResponseEntity<List<Task>> getTasksByUser(@PathVariable Long userId) {
         List<Task> tasks = taskService.getTasksByUser(userId);
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/by-department/{departmentId}")
-    public ResponseEntity<List<Task>> getTasksByDepartment(@PathVariable String departmentId) {
-        List<Task> tasks = taskService.getTasksByDepartment(departmentId);
+    @GetMapping("/by-department/{department}")
+    public ResponseEntity<List<Task>> getTasksByDepartment(@PathVariable Long departmentID) {
+        List<Task> tasks = taskService.getTasksByDepartment(departmentID);
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/by-area/{areaId}")
-    public ResponseEntity<List<Task>> getTasksByArea(@PathVariable String areaId) {
-        List<Task> tasks = taskService.getTasksByArea(areaId);
+    @GetMapping("/by-area/{area}")
+    public ResponseEntity<List<Task>> getTasksByArea(@PathVariable Long area) {
+        List<Task> tasks = taskService.getTasksByArea(area);
         return ResponseEntity.ok(tasks);
     }
 }
